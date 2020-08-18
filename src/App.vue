@@ -1,19 +1,24 @@
 <template>
+<body>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <fight msg />
+    <div class="row">
+      <div class="col-3">
+      </div>
+    </div>
   </div>
+</body>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import fight from "./components/fight.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    fight,
+  },
+};
 </script>
 
 <style>
@@ -23,6 +28,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+body {
+  background-image: url(./assets/img/bg.jpg);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 </style>
