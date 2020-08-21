@@ -3,8 +3,8 @@
     <button @click="randomStart()" class="btn btn-danger">Start</button>
     <div class="row">
       <div class="col-12">
-        <button @click="randomDamage(0,50)" class="btn btn-info">Attack</button>
-        <button @click="randomDamageSP(50,100)" class="btn btn-info">Special Attack</button>
+        <button @click="randomDamage(0,20)" class="btn btn-info">Attack</button>
+        <button @click="randomDamageSP(30,70)" class="btn btn-info">Special Attack</button>
       </div>
     </div>
 
@@ -114,7 +114,9 @@ export default {
     randomDamageSP: function (min, max) {
       this.randomAttack = Math.max(Math.floor(Math.random() * max) + 1, min);
       console.log(this.randomAttack);
-      this.hp2 -= this.randomAttack;
+      if (this.hp1 != 0 && this.hp2 != 0) {
+        this.hp2 -= this.randomAttack;
+      }
       if (this.hp2 <= 0) {
         this.hp2 = 0;
       }
