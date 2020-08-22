@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-12">
         <button @click="randomDamage(1,20)" class="btn btn-info">Attack</button>
-        <button @click="randomDamageSP(30,70)" class="btn btn-info">Special Attack</button>
+        <button @click="randomDamageSP(40,70)" class="btn btn-info">Special Attack</button>
       </div>
     </div>
 
@@ -32,32 +32,41 @@ export default {
       randomSpAttack: "",
       image1: "",
       image2: "",
-      lose: "./assets/img/lose.png",
-      win: "./assets/img/win.png",
-      try: "./assets/img/try.png",
       hp1: 0,
       hp2: 0,
       total: 0,
       afteravatar: "",
       avatar: "",
+
+      WinLose: [
+        {
+          image: "./assets/img/lose.png",
+        },
+        {
+          image: "./assets/img/win.png",
+        },
+        {
+          image: "./assets/img/try.png",
+        },
+      ],
       player: [
         {
           name: "Batman",
           hp: 300,
           image: "./assets/img/batman.png",
-          imageAv: "./assets/img/win.png", // ร่างอวตาร
+          imageAv: "./assets/img/spb.png", // ร่างอวตาร
         },
         {
           name: "Joker",
           hp: 200,
           image: "./assets/img/joker.png",
-          imageAv: "./assets/img/win.png", // ร่างอวตาร
+          imageAv: "./assets/img/spj.png", // ร่างอวตาร
         },
         {
           name: "Superman",
           hp: 400,
           image: "./assets/img/superman.png",
-          imageAv: "./assets/img/win.png", // ร่างอวตาร
+          imageAv: "./assets/img/spp.png", // ร่างอวตาร
         },
       ],
       randomPlayer: "",
@@ -122,16 +131,16 @@ export default {
       // ชนะ,เสมอ,แพ้
       if (this.hp1 <= 1) {
         this.hp1 = 0;
-        this.image1 = this.lose;
+        this.image1 = this.WinLose[0].image;
       }
       if (this.hp2 <= 1) {
         this.hp2 = 0;
-        this.image2 = this.win;
+        this.image2 = this.WinLose[1].image;
       }
       if (this.hp1 == 0 && this.hp2 == 0) {
         this.hp1 = 0;
-        this.image1 = this.try;
-        this.image2 = this.try;
+        this.image1 = this.WinLose[2].image;
+        this.image2 = this.WinLose[2].image;
       }
     },
 
@@ -145,18 +154,18 @@ export default {
         this.image1 = this.afteravatar;
       }
       // ชนะ,เสมอ,แพ้
-      if (this.hp1 <= 0) {
+      if (this.hp1 <= 1) {
         this.hp1 = 0;
-        this.image1 = this.lose;
+        this.image1 = this.WinLose[0].image;
       }
-      if (this.hp2 <= 0) {
+      if (this.hp2 <= 1) {
         this.hp2 = 0;
-        this.image2 = this.win;
+        this.image2 = this.WinLose[1].image;
       }
       if (this.hp1 == 0 && this.hp2 == 0) {
         this.hp1 = 0;
-        this.image1 = this.try;
-        this.image2 = this.try;
+        this.image1 = this.WinLose[2].image;
+        this.image2 = this.WinLose[2].image;
       }
     },
   },
