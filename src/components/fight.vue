@@ -3,7 +3,7 @@
     <button @click="randomStart()" class="btn btn-danger">Start</button>
     <div class="row">
       <div class="col-12">
-        <button @click="randomDamage(0,20)" class="btn btn-info">Attack</button>
+        <button @click="randomDamage(1,20)" class="btn btn-info">Attack</button>
         <button @click="randomDamageSP(30,70)" class="btn btn-info">Special Attack</button>
       </div>
     </div>
@@ -32,30 +32,38 @@ export default {
       randomSpAttack: "",
       image1: "",
       image2: "",
+      lose: "./assets/img/lose.png",
+      win: "./assets/img/win.png",
+      try: "./assets/img/try.png",
       hp1: 0,
       hp2: 0,
-
+      total: 0,
+      afteravatar: "",
+      avatar: "",
       player: [
         {
           name: "Batman",
           hp: 300,
           image: "./assets/img/batman.png",
+          imageAv: "./assets/img/win.png", // ร่างอวตาร
         },
         {
           name: "Joker",
           hp: 200,
           image: "./assets/img/joker.png",
+          imageAv: "./assets/img/win.png", // ร่างอวตาร
         },
         {
           name: "Superman",
           hp: 400,
           image: "./assets/img/superman.png",
+          imageAv: "./assets/img/win.png", // ร่างอวตาร
         },
       ],
       randomPlayer: "",
       monster: [
         {
-          name: "Hukl",
+          name: "Hulk",
           hp: 350,
           image: "./assets/img/hulk.png",
         },
@@ -84,41 +92,71 @@ export default {
       this.randomPlayer = this.player[chosenNumber1].name;
       this.hp1 = this.player[chosenNumber1].hp;
       this.image1 = this.player[chosenNumber1].image;
+      this.avatar = this.player[chosenNumber1].imageAv;
+      this.afteravatar = this.player[chosenNumber1].image;
 
       var chosenNumber2 = Math.floor(Math.random() * this.monster.length);
       this.randomMonster = this.monster[chosenNumber2].name;
       this.hp2 = this.monster[chosenNumber2].hp;
       this.image2 = this.monster[chosenNumber2].image;
+
+      this.total = 0;
     },
 
     randomDamage: function (min, max) {
       this.randomAttack = Math.max(Math.floor(Math.random() * max) + 1, min);
-      console.log(this.randomAttack);
-      console.log(this.hp2);
+      //console.log(this.randomAttack);
+      console.log(this.total);
+      // โจมตีไปกลับ
       if (this.hp1 != 0 && this.hp2 != 0) {
         this.hp2 -= this.randomAttack;
+        this.total += this.randomAttack;
       }
-      if (this.hp2 != 0 && this.hp1 != 0) {
+      if (this.hp1 != 0 && this.hp2 != 0) {
         this.hp1 -= this.randomAttack;
       }
-      if (this.hp1 <= 0) {
-        this.hp1 = 0;
-        console.log("LOSE");
+      // ถ้า โจมตีสะสมเท่ากับ 150 สร้างร่างอวตาร
+      if (this.total >= 150) {
+        this.image1 = this.avatar; // image ร่างอวตาร
       }
-      if (this.hp2 <= 0) {
+      // ชนะ,เสมอ,แพ้
+      if (this.hp1 <= 1) {
+        this.hp1 = 0;
+        this.image1 = this.lose;
+      }
+      if (this.hp2 <= 1) {
         this.hp2 = 0;
-        console.log("WIN");
+        this.image2 = this.win;
+      }
+      if (this.hp1 == 0 && this.hp2 == 0) {
+        this.hp1 = 0;
+        this.image1 = this.try;
+        this.image2 = this.try;
       }
     },
 
     randomDamageSP: function (min, max) {
       this.randomAttack = Math.max(Math.floor(Math.random() * max) + 1, min);
-      console.log(this.randomAttack);
-      if (this.hp1 != 0 && this.hp2 != 0) {
+      //console.log(this.randomAttack);
+      //ถ้าจะ SuperAttack ต้องสะสมพลังมากกว่า 150 หน่วย
+      if (this.total >= 150) {
         this.hp2 -= this.randomAttack;
+        this.total = 0;
+        this.image1 = this.afteravatar;
+      }
+      // ชนะ,เสมอ,แพ้
+      if (this.hp1 <= 0) {
+        this.hp1 = 0;
+        this.image1 = this.lose;
       }
       if (this.hp2 <= 0) {
         this.hp2 = 0;
+        this.image2 = this.win;
+      }
+      if (this.hp1 == 0 && this.hp2 == 0) {
+        this.hp1 = 0;
+        this.image1 = this.try;
+        this.image2 = this.try;
       }
     },
   },
