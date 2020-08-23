@@ -2,9 +2,6 @@
 <body>
   <div id="app">
     <fight msg />
-    <div class="row">
-      <div class="col-3"></div>
-    </div>
   </div>
 </body>
 </template>
@@ -26,8 +23,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  padding: 3em;
 }
 body {
-  background-color: white;
+  background-image: url("./assets/img/5311.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 </style>

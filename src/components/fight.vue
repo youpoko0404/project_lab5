@@ -1,24 +1,29 @@
 <template>
   <div>
-    <button @click="randomStart()" class="btn btn-danger">Start</button>
+    <button @click="randomStart()" class="btn btn-danger mb-2">Start</button>
     <div class="row">
-      <div class="col-12">
-        <button @click="randomDamage(1,20)" class="btn btn-info">Attack</button>
-        <button @click="randomDamageSP(40,70)" class="btn btn-info">Special Attack</button>
+      <div class="col">
+        <button @click="randomDamage(1,20)" class="btn btn-info mr-2 mb-4">Attack</button>
       </div>
     </div>
-
-    <div class="row">
-      <div class="col-6">
-        <p>{{randomPlayer}}</p>
-        <p>HP : {{hp1}}</p>
-        <img :src="image1" />
-      </div>
-
-      <div class="col-6">
-        <p>{{randomMonster}}</p>
-        <p>HP : {{hp2}}</p>
-        <img :src="image2" />
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="alert alert-primary" role="alert">Hero : {{randomPlayer}} | HP : {{hp1}}</div>
+          <div class="heroMon">
+            <img :src="image1" class="img-fluid" />
+          </div>
+        </div>
+        <!-- ต้อง Random ถึง 150 ถึงจะกดปุ่ม Special Attack ได้ -->
+        <div v-if="this.total >= 150">
+          <button @click="randomDamageSP(40,70)" class="btn btn-info">Special Attack</button>
+        </div>
+        <div class="col">
+          <div class="alert alert-primary" role="alert">Hero : {{randomMonster}} | HP : {{hp2}}</div>
+          <div class="heroMon">
+            <img :src="image2" class="img-fluid" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -40,10 +45,7 @@ export default {
 
       WinLose: [
         {
-          image: "./assets/img/lose.png",
-        },
-        {
-          image: "./assets/img/win.png",
+          image: "./assets/img/ko.png",
         },
         {
           image: "./assets/img/try.png",
@@ -135,12 +137,12 @@ export default {
       }
       if (this.hp2 <= 1) {
         this.hp2 = 0;
-        this.image2 = this.WinLose[1].image;
+        this.image2 = this.WinLose[0].image;
       }
       if (this.hp1 == 0 && this.hp2 == 0) {
         this.hp1 = 0;
-        this.image1 = this.WinLose[2].image;
-        this.image2 = this.WinLose[2].image;
+        this.image1 = this.WinLose[1].image;
+        this.image2 = this.WinLose[1].image;
       }
     },
 
@@ -160,12 +162,12 @@ export default {
       }
       if (this.hp2 <= 1) {
         this.hp2 = 0;
-        this.image2 = this.WinLose[1].image;
+        this.image2 = this.WinLose[0].image;
       }
       if (this.hp1 == 0 && this.hp2 == 0) {
         this.hp1 = 0;
-        this.image1 = this.WinLose[2].image;
-        this.image2 = this.WinLose[2].image;
+        this.image1 = this.WinLose[1].image;
+        this.image2 = this.WinLose[1].image;
       }
     },
   },
@@ -173,4 +175,7 @@ export default {
 </script>
 
 <style>
+.heroMon {
+  padding: 6em;
+}
 </style>
