@@ -3,7 +3,11 @@
     <button @click="randomStart()" class="btn btn-danger mb-2">Start</button>
     <div class="row">
       <div class="col">
-        <button @click="randomDamage(1,20)" class="btn btn-info mr-2 mb-4">Attack</button>
+        <button @click="randomDamage(1,20)" class="btn btn-info mb-4">Attack</button>
+        <!-- ต้อง Random ถึง 150 ถึงจะกดปุ่ม Special Attack ได้ -->
+        <template v-if="this.total >= 150">
+          <button @click="randomDamageSP(40,70)" class="btn btn-info mb-4 ml-3">Special Attack</button>
+        </template>
       </div>
     </div>
     <div class="container">
@@ -13,10 +17,6 @@
           <div class="heroMon">
             <img :src="image1" class="img-fluid" />
           </div>
-        </div>
-        <!-- ต้อง Random ถึง 150 ถึงจะกดปุ่ม Special Attack ได้ -->
-        <div v-if="this.total >= 150">
-          <button @click="randomDamageSP(40,70)" class="btn btn-info">Special Attack</button>
         </div>
         <div class="col">
           <div class="alert alert-primary" role="alert">Hero : {{randomMonster}} | HP : {{hp2}}</div>
@@ -42,7 +42,7 @@ export default {
       total: 0,
       afteravatar: "",
       avatar: "",
-
+      
       WinLose: [
         {
           image: "./assets/img/ko.png",
@@ -118,38 +118,36 @@ export default {
       this.randomAttack = Math.max(Math.floor(Math.random() * max) + 1, min);
       //console.log(this.randomAttack);
       console.log(this.total);
-      // โจมตีไปกลับ
+      // Attack return
       if (this.hp1 != 0 && this.hp2 != 0) {
         this.hp2 -= this.randomAttack;
+        this.hp1 -= this.randomAttack;
         this.total += this.randomAttack;
       }
-      if (this.hp1 != 0 && this.hp2 != 0) {
-        this.hp1 -= this.randomAttack;
-      }
-      // ถ้า โจมตีสะสมเท่ากับ 150 สร้างร่างอวตาร
+      // Must <-- attack more than 150 Create a new body
       if (this.total >= 150) {
-        this.image1 = this.avatar; // image ร่างอวตาร
+        this.image1 = this.avatar; // image index[avatar <- [imageAv]]
       }
-      // ชนะ,เสมอ,แพ้
+      // WIN,TIE,LOSE
       if (this.hp1 <= 1) {
         this.hp1 = 0;
-        this.image1 = this.WinLose[0].image;
+        this.image1 = this.WinLose[0].image; // image index[0] WIN
       }
       if (this.hp2 <= 1) {
         this.hp2 = 0;
-        this.image2 = this.WinLose[0].image;
+        this.image2 = this.WinLose[0].image; //image index[0] WIN
       }
       if (this.hp1 == 0 && this.hp2 == 0) {
         this.hp1 = 0;
-        this.image1 = this.WinLose[1].image;
-        this.image2 = this.WinLose[1].image;
+        this.image1 = this.WinLose[1].image; //image index[0] KO
+        this.image2 = this.WinLose[1].image; //image index[0] KO
       }
     },
 
     randomDamageSP: function (min, max) {
       this.randomAttack = Math.max(Math.floor(Math.random() * max) + 1, min);
       //console.log(this.randomAttack);
-      //ถ้าจะ SuperAttack ต้องสะสมพลังมากกว่า 150 หน่วย
+      // Must <-- attack more than 150  DamageSuperAttack
       if (this.total >= 150) {
         this.hp2 -= this.randomAttack;
         this.total = 0;
