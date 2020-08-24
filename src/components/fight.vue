@@ -53,40 +53,46 @@ export default {
       ],
       player: [
         {
-          name: "Batman",
+          name: "Magneton",
           hp: 300,
-          image: "./assets/img/batman.png",
-          imageAv: "./assets/img/spb.png", // ร่างอวตาร
+          image: "./assets/img/p1.png",
+          imageAv: "./assets/img/p1av.png", // ร่างอวตาร
         },
         {
-          name: "Joker",
+          name: "Eevee",
           hp: 200,
-          image: "./assets/img/joker.png",
-          imageAv: "./assets/img/spj.png", // ร่างอวตาร
+          image: "./assets/img/p2.png",
+          imageAv: "./assets/img/p2av.png", // ร่างอวตาร
         },
         {
-          name: "Superman",
+          name: "Porygon2",
           hp: 400,
-          image: "./assets/img/superman.png",
-          imageAv: "./assets/img/spp.png", // ร่างอวตาร
+          image: "./assets/img/p3.png",
+          imageAv: "./assets/img/p3av.png", // ร่างอวตาร
+        },
+        {
+          name: "Yanma",
+          hp: 250,
+          image: "./assets/img/p4.png",
+          imageAv: "./assets/img/p4av.png", // ร่างอวตาร
         },
       ],
       randomPlayer: "",
       monster: [
         {
-          name: "Hulk",
+          name: "Misdreavus",
           hp: 350,
-          image: "./assets/img/hulk.png",
+          image: "./assets/img/m1.png",
         },
         {
-          name: "Ironman",
+          name: "Murkrow",
           hp: 240,
-          image: "./assets/img/ironman.png",
+          image: "./assets/img/m2.png",
         },
         {
-          name: "Sipderman",
+          name: "Mewtwo",
           hp: 230,
-          image: "./assets/img/sipderman.png",
+          image: "./assets/img/m3.png",
         },
       ],
       randomMonster: "",

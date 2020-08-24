@@ -26,7 +26,7 @@ export default {
   padding: 3em;
 }
 body {
-  background-image: url("./assets/img/5311.jpg");
+  background-image: url("./assets/img/bgg.png");
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
