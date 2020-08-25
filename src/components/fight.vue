@@ -17,7 +17,7 @@
           <!-- ต้อง Random ถึง 150 ถึงจะกดปุ่ม Special Attack ได้ -->
           <template v-if="this.total >= 100">
             <button
-              class="btn btn-primary btn-lg disabled mb-4 ml-3"
+              class="btn btn-danger btn-lg disabled mb-4 ml-3"
               @click="randomDamageSP(40,70)"
               tabindex="-1"
               role="button"
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="col">
-            <div class="alert alert-primary" role="alert">Hero : {{randomMonster}} | HP : {{hp2}}</div>
+            <div class="alert alert-danger" role="alert">Hero : {{randomMonster}} | HP : {{hp2}}</div>
             <div class="heroMon">
               <img :src="image2" class="img-fluid" />
             </div>
