@@ -1,33 +1,61 @@
 <template>
   <div>
-    <button @click="randomStart()" class="btn btn-danger mb-2">Start</button>
-    <div class="row">
-      <div class="col">
-        <button @click="randomDamage(1,20)" class="btn btn-info mb-4">Attack</button>
-        <!-- ต้อง Random ถึง 150 ถึงจะกดปุ่ม Special Attack ได้ -->
-        <template v-if="this.total >= 150">
-          <button @click="randomDamageSP(40,70)" class="btn btn-info mb-4 ml-3">Special Attack</button>
-        </template>
-      </div>
-    </div>
-    <div class="container">
+    <button @click="randomStart()" style="--content: 'START'; ">
+      <div class="left"></div>START
+      <div class="right"></div>
+    </button>
+    <template v-if="this.i != 0 ">
       <div class="row">
         <div class="col">
-          <div class="alert alert-primary" role="alert">Hero : {{randomPlayer}} | HP : {{hp1}}</div>
-          <div class="heroMon">
-            <img :src="image1" class="img-fluid" />
-          </div>
+          <button
+            @click="randomDamage(1,20)"
+            class="btn btn-primary btn-lg mb-4"
+            tabindex="-1"
+            role="button"
+            aria-disabled="true"
+          >Attack</button>
+          <!-- ต้อง Random ถึง 150 ถึงจะกดปุ่ม Special Attack ได้ -->
+          <template v-if="this.total >= 100">
+            <button
+              class="btn btn-primary btn-lg disabled mb-4 ml-3"
+              @click="randomDamageSP(40,70)"
+              tabindex="-1"
+              role="button"
+              aria-disabled="true"
+            >Special Attack</button>
+          </template>
+          <template v-else-if="this.total <= 150">
+            <button
+              class="btn btn-secondary btn-lg disabled mb-4 ml-3"
+              @click="randomDamageSP(40,70)"
+            >Special Attack</button>
+          </template>
         </div>
-        <div class="col">
-          <div class="alert alert-primary" role="alert">Hero : {{randomMonster}} | HP : {{hp2}}</div>
-          <div class="heroMon">
-            <img :src="image2" class="img-fluid" />
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            <div
+              class="alert alert-primary"
+              role="alert"
+            >Hero : {{randomPlayer}} | HP : {{hp1}} | Charger : {{total}}</div>
+            <div class="heroMon">
+              <img :src="image1" class="img-fluid" />
+            </div>
+          </div>
+          <div class="col">
+            <div class="alert alert-primary" role="alert">Hero : {{randomMonster}} | HP : {{hp2}}</div>
+            <div class="heroMon">
+              <img :src="image2" class="img-fluid" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -42,7 +70,8 @@ export default {
       total: 0,
       afteravatar: "",
       avatar: "",
-      
+      i: 0,
+
       WinLose: [
         {
           image: "./assets/img/ko.png",
@@ -65,7 +94,7 @@ export default {
           imageAv: "./assets/img/p2av.png", // ร่างอวตาร
         },
         {
-          name: "Porygon2",
+          name: "Porygon",
           hp: 400,
           image: "./assets/img/p3.png",
           imageAv: "./assets/img/p3av.png", // ร่างอวตาร
@@ -118,6 +147,7 @@ export default {
       this.image2 = this.monster[chosenNumber2].image;
 
       this.total = 0;
+      this.i = 1;
     },
 
     randomDamage: function (min, max) {
@@ -131,7 +161,7 @@ export default {
         this.total += this.randomAttack;
       }
       // Must <-- attack more than 150 Create a new body
-      if (this.total >= 150) {
+      if (this.total >= 100) {
         this.image1 = this.avatar; // image index[avatar <- [imageAv]]
       }
       // WIN,TIE,LOSE
@@ -154,7 +184,7 @@ export default {
       this.randomAttack = Math.max(Math.floor(Math.random() * max) + 1, min);
       //console.log(this.randomAttack);
       // Must <-- attack more than 150  DamageSuperAttack
-      if (this.total >= 150) {
+      if (this.total >= 100) {
         this.hp2 -= this.randomAttack;
         this.total = 0;
         this.image1 = this.afteravatar;
