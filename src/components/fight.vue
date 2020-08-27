@@ -19,33 +19,37 @@
             <button
               class="btn btn-danger btn-lg mb-4 ml-3"
               @click="randomDamageSP(40,70)"
-              tabindex="-1"
-              role="button"
-              aria-disabled="true"
             >Special Attack</button>
           </template>
           <template v-else-if="this.total <= 100">
             <button
               class="btn btn-secondary btn-lg disabled mb-4 ml-3"
+              @click="randomDamageSP(40,70)"
             >Special Attack</button>
           </template>
         </div>
       </div>
-
       <div class="container-fluid">
         <div class="row">
           <div class="col">
-            <div
-              class="alert alert-primary"
-              role="alert"
-            >Hero : {{randomPlayer}} | HP : {{hp1}} | Charger : {{total}}</div>
+            <div class="alert alert-primary" role="alert">Hero : {{randomPlayer}} | HP : {{hp1}}</div>
             <div class="heroMon">
+              <div class="pdCHart">
+                <div class="progress">
+                  <div
+                    id="ChartID"
+                    class="progress-bar progress-bar-striped bg-danger"
+                    style="width:0%"
+                  ></div>
+                </div>
+              </div>
               <img :src="image1" class="img-fluid" />
             </div>
           </div>
           <div class="col">
             <div class="alert alert-danger" role="alert">Hero : {{randomMonster}} | HP : {{hp2}}</div>
             <div class="heroMon">
+              <div class="pdCHart"></div>
               <img :src="image2" class="img-fluid" />
             </div>
           </div>
@@ -70,6 +74,7 @@ export default {
       afteravatar: "",
       avatar: "",
       i: 0,
+      chart: 0,
 
       WinLose: [
         {
@@ -147,6 +152,10 @@ export default {
 
       this.total = 0;
       this.i = 1;
+      this.chart = 0;
+      document
+        .getElementById("ChartID")
+        .setAttribute("style", "width:" + this.chart + "%");
     },
 
     randomDamage: function (min, max) {
@@ -158,6 +167,10 @@ export default {
         this.hp2 -= this.randomAttack;
         this.hp1 -= this.randomAttack;
         this.total += this.randomAttack;
+        this.chart = this.chart + this.randomAttack;
+        document
+          .getElementById("ChartID")
+          .setAttribute("style", "width:" + this.chart + "%");
       }
       // Must <-- attack more than 150 Create a new body
       if (this.total >= 100) {
@@ -187,6 +200,10 @@ export default {
         this.hp2 -= this.randomAttack;
         this.total = 0;
         this.image1 = this.afteravatar;
+        this.chart = 0;
+        document
+          .getElementById("ChartID")
+          .setAttribute("style", "width:" + this.chart + "%");
       }
       // ชนะ,เสมอ,แพ้
       if (this.hp1 <= 1) {
@@ -209,6 +226,9 @@ export default {
 
 <style>
 .heroMon {
-  padding: 6em;
+  padding: 4em;
+}
+.pdCHart {
+  padding: 2em;
 }
 </style>
