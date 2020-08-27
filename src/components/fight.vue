@@ -44,7 +44,7 @@
               </div>
             </div>
             <div class="heroMon">
-              <img :src="image1" class="img-fluid" />
+              <img v-bind:style="{width: hp1 + 280 + 'px'}" :src="image1" />
             </div>
           </div>
           <div class="col">
@@ -59,7 +59,7 @@
               </div>
             </div>
             <div class="heroMon">
-              <img :src="image2" class="img-fluid" />
+              <img v-bind:style="{width: hp2 + 230 + 'px'}" :src="image2" />
             </div>
           </div>
         </div>
@@ -185,7 +185,7 @@ export default {
     randomDamageAttack: function () {
       // randomrandomDamageAttack
       var x = this.randomDamage(3, 10);
-      var y = this.randomDamage(5, 10);
+      var y = this.randomDamage(5, 15);
       console.log("x= " + x);
       console.log("x= " + y);
       // Attack return
