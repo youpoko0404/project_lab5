@@ -4,52 +4,61 @@
       <div class="left"></div>START
       <div class="right"></div>
     </button>
-    <template v-if="this.i != 0 ">
+    <template v-if="this.i != false ">
       <div class="row">
         <div class="col">
           <button
-            @click="randomDamage(1,20)"
+            @click="randomDamageAttack()"
             class="btn btn-primary btn-lg mb-4"
             tabindex="-1"
             role="button"
             aria-disabled="true"
           >Attack</button>
           <!-- ต้อง Random ถึง 150 ถึงจะกดปุ่ม Special Attack ได้ -->
-          <template v-if="this.total >= 100">
-            <button
-              class="btn btn-danger btn-lg mb-4 ml-3"
-              @click="randomDamageSP(40,70)"
-            >Special Attack</button>
+          <template v-if="this.chart >= 100">
+            <button class="btn btn-danger btn-lg mb-4 ml-3" @click="randomDamageSP()">Special Attack</button>
           </template>
-          <template v-else-if="this.total <= 100">
-            <button
-              class="btn btn-secondary btn-lg disabled mb-4 ml-3"
-              @click="randomDamageSP(40,70)"
-            >Special Attack</button>
+          <template v-else-if="this.chart <= 100">
+            <button class="btn btn-secondary btn-lg disabled mb-4 ml-3">Special Attack</button>
           </template>
         </div>
       </div>
       <div class="container-fluid">
         <div class="row">
           <div class="col">
-            <div class="alert alert-primary" role="alert">Hero : {{randomPlayer}} | HP : {{hp1}}</div>
-            <div class="heroMon">
-              <div class="pdCHart">
-                <div class="progress">
-                  <div
-                    id="ChartID"
-                    class="progress-bar progress-bar-striped bg-danger"
-                    style="width:0%"
-                  ></div>
-                </div>
+            <div class="alert alert-primary" role="alert">
+              Hero : {{randomPlayer}} | HP : {{hp1}}
+              <div class="progress" style="height: 20px;">
+                <div
+                  id="HealthPID"
+                  class="progress-bar progress-bar-striped bg-info"
+                  style="width:100%"
+                ></div>
               </div>
+              <div class="progress" style="height: 5px;">
+                <div
+                  id="ChartID"
+                  class="progress-bar progress-bar-striped bg-danger"
+                  style="width:0%"
+                ></div>
+              </div>
+            </div>
+            <div class="heroMon">
               <img :src="image1" class="img-fluid" />
             </div>
           </div>
           <div class="col">
-            <div class="alert alert-danger" role="alert">Hero : {{randomMonster}} | HP : {{hp2}}</div>
+            <div class="alert alert-danger" role="alert">
+              Hero : {{randomMonster}} | HP : {{hp2}}
+              <div class="progress" style="height: 25px;">
+                <div
+                  id="HealthMID"
+                  class="progress-bar progress-bar-striped bg-info"
+                  style="width:100%"
+                ></div>
+              </div>
+            </div>
             <div class="heroMon">
-              <div class="pdCHart"></div>
               <img :src="image2" class="img-fluid" />
             </div>
           </div>
@@ -58,7 +67,6 @@
     </template>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -73,8 +81,10 @@ export default {
       total: 0,
       afteravatar: "",
       avatar: "",
-      i: 0,
+      i: false,
       chart: 0,
+      HealthP: 100,
+      HealthM: 100,
 
       WinLose: [
         {
@@ -87,25 +97,25 @@ export default {
       player: [
         {
           name: "Magneton",
-          hp: 300,
+          hp: 100,
           image: "./assets/img/p1.png",
           imageAv: "./assets/img/p1av.png", // ร่างอวตาร
         },
         {
           name: "Eevee",
-          hp: 200,
+          hp: 100,
           image: "./assets/img/p2.png",
           imageAv: "./assets/img/p2av.png", // ร่างอวตาร
         },
         {
           name: "Porygon",
-          hp: 400,
+          hp: 100,
           image: "./assets/img/p3.png",
           imageAv: "./assets/img/p3av.png", // ร่างอวตาร
         },
         {
           name: "Yanma",
-          hp: 250,
+          hp: 100,
           image: "./assets/img/p4.png",
           imageAv: "./assets/img/p4av.png", // ร่างอวตาร
         },
@@ -114,17 +124,17 @@ export default {
       monster: [
         {
           name: "Misdreavus",
-          hp: 350,
+          hp: 100,
           image: "./assets/img/m1.png",
         },
         {
           name: "Murkrow",
-          hp: 240,
+          hp: 100,
           image: "./assets/img/m2.png",
         },
         {
           name: "Mewtwo",
-          hp: 230,
+          hp: 100,
           image: "./assets/img/m3.png",
         },
       ],
@@ -138,6 +148,7 @@ export default {
 
   methods: {
     randomStart: function () {
+      // randomBody
       var chosenNumber1 = Math.floor(Math.random() * this.player.length);
       this.randomPlayer = this.player[chosenNumber1].name;
       this.hp1 = this.player[chosenNumber1].hp;
@@ -151,29 +162,55 @@ export default {
       this.image2 = this.monster[chosenNumber2].image;
 
       this.total = 0;
-      this.i = 1;
+      this.i = true;
       this.chart = 0;
       document
-        .getElementById("ChartID")
+        .getElementById("ChartID") //ChartAttack
         .setAttribute("style", "width:" + this.chart + "%");
+      this.HealthP = 100;
+      document
+        .getElementById("HealthPID") //ChartHealthPayer
+        .setAttribute("style", "width:" + this.HealthP + "%");
+      this.HealthM = 100;
+      document
+        .getElementById("HealthMID") //ChartHealthMonster
+        .setAttribute("style", "width:" + this.HealthM + "%");
     },
 
     randomDamage: function (min, max) {
-      this.randomAttack = Math.max(Math.floor(Math.random() * max) + 1, min);
-      //console.log(this.randomAttack);
-      console.log(this.total);
+      // randomReturn
+      return Math.max(Math.floor(Math.random() * max) + 1, min);
+    },
+
+    randomDamageAttack: function () {
+      // randomrandomDamageAttack
+      var x = this.randomDamage(3, 10);
+      var y = this.randomDamage(5, 10);
+      console.log("x= " + x);
+      console.log("x= " + y);
       // Attack return
       if (this.hp1 != 0 && this.hp2 != 0) {
-        this.hp2 -= this.randomAttack;
-        this.hp1 -= this.randomAttack;
-        this.total += this.randomAttack;
-        this.chart = this.chart + this.randomAttack;
+        this.hp2 -= x;
+        this.hp1 -= y;
+        this.total += x;
+        this.HealthP = this.hp1;
+        document
+          .getElementById("HealthPID")
+          .setAttribute("style", "width:" + this.HealthP + "%");
+
+        this.HealthM = this.hp2;
+        document
+          .getElementById("HealthMID")
+          .setAttribute("style", "width:" + this.HealthM + "%");
+
+        this.chart = this.total += 15;
+        console.log("chart = " + this.chart);
         document
           .getElementById("ChartID")
           .setAttribute("style", "width:" + this.chart + "%");
       }
       // Must <-- attack more than 150 Create a new body
-      if (this.total >= 100) {
+      if (this.chart >= 100) {
         this.image1 = this.avatar; // image index[avatar <- [imageAv]]
       }
       // WIN,TIE,LOSE
@@ -192,17 +229,21 @@ export default {
       }
     },
 
-    randomDamageSP: function (min, max) {
-      this.randomAttack = Math.max(Math.floor(Math.random() * max) + 1, min);
-      //console.log(this.randomAttack);
+    randomDamageSP: function () {
+      // randomrandomrandomDamageSP
+      var sp = this.randomDamage(10, 20);
       // Must <-- attack more than 150  DamageSuperAttack
-      if (this.total >= 100) {
-        this.hp2 -= this.randomAttack;
+      if (this.chart >= 100) {
+        this.hp2 -= sp;
         this.total = 0;
         this.image1 = this.afteravatar;
+        this.HealthM = this.hp2;
+        document
+          .getElementById("HealthMID")
+          .setAttribute("style", "width:" + this.HealthM + "%");
         this.chart = 0;
         document
-          .getElementById("ChartID")
+          .getElementById("ChartID") //ChartAttack
           .setAttribute("style", "width:" + this.chart + "%");
       }
       // ชนะ,เสมอ,แพ้
@@ -226,7 +267,7 @@ export default {
 
 <style>
 .heroMon {
-  padding: 4em;
+  padding: 6em;
 }
 .pdCHart {
   padding: 2em;
